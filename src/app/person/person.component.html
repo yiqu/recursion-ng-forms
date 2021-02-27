@@ -1,0 +1,48 @@
+<div class="person-form ml-2 mb" [formGroup]="habitantFg" *ngIf="habitantFg">
+  <div class="title">Habitant</div>
+  <div>
+
+    <div class="form-group mb">
+      <label>Name</label>
+      <input class="form-control" formControlName='name'>
+    </div>
+
+    <div class="form-group mb">
+      <label>Age</label>
+      <input class="form-control" formControlName='age'>
+    </div>
+
+    <div class="form-group mb">
+
+      <div class="title-add mt">
+        <label>Containers</label>
+        <button class="btn btn-sm btn-primary" (click)="onAddType()">+</button>
+      </div>
+
+      <div formArrayName='containers'>
+        <div *ngFor="let hab of getContainers.controls; let i = index">
+
+          <div [formGroupName]="i">
+
+            <div class="mb">
+              <label>Type</label>
+              <select formControlName='source_type' (change)="onTypeChange(i)">
+                <option disabled hidden>None</option>
+                <option *ngFor="let opt of typeSelections" [value]="opt">{{opt}}</option>
+              </select>
+            </div>
+
+            <div *ngFor="let ctrl of objToArray(getContainers.at(i)['controls'])" class="flex">
+              <label>{{ctrl}}</label>
+              <input class="form-control" [formControlName]='ctrl' [placeholder]="'Enter ' + ctrl">
+
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

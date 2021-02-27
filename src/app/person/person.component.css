@@ -1,0 +1,34 @@
+.person-form {
+  width: 500px;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.title {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.title-add {
+  display: flex;
+}
+
+.flex {
+  display: flex;
+}
+
+.mb {
+  margin-bottom: 10px;
+}
+
+.mt {
+  margin-top: 10px;
+}
+
+.mr {
+  margin-right: 10px;
+}
+
+label {
+  margin-right: 10px;
+}
