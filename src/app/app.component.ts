@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -16,10 +17,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.mainFg = this.createMainFormGroup();
-    this.mainFg.valueChanges.subscribe((res) => {
+    this.mainFg.valueChanges.pipe(
+      debounceTime(1500)
+    )
+    .subscribe((res) => {
       console.log(this.mainFg.value);
     });
-    console.log("init")
   }
 
   //  Overall

@@ -1,5 +1,4 @@
-<div class="habitant-form ml-2 mb" [formGroup]="passedInHabitant?.get('habitantName') ? $any(passedInHabitant) : habitantFg"
-  *ngIf="passedInHabitant?.get('habitantName') || passedInHabitant">
+<div class="habitant-form ml-2 mb" [formGroup]="habitantFg" *ngIf="habitantFg">
 
   <div class="title">Habitant Information</div>
   <div>
@@ -18,11 +17,11 @@
 
       <div class="title-add mt mb">
         <label>Dependent</label>
-        <button class="btn btn-sm btn-primary" (click)="onAddType()">Add another dependent</button>
+        <button class="btn btn-sm btn-primary" (click)="onAddDep()">Add another dependent</button>
       </div>
 
-      <div formArrayName='containers'>
-        <div *ngFor="let hab of getContainers.controls; let i = index" [formGroupName]="i" class="mb">
+      <div formArrayName='dependents'>
+        <div *ngFor="let hab of getDependentsArray.controls; let i = index" [formGroupName]="i" class="mb">
           <div class="flex bl mb">
             <div class="mr">#{{i + 1}}</div>
             <div>
@@ -31,7 +30,7 @@
                 <option disabled hidden>None</option>
                 <option *ngFor="let opt of typeSelections" [value]="opt">{{opt}}</option>
               </select>
-              <button class="btn btn-danger btn-sm btn-block ml" (click)="onRemoveType(i)">Delete this dependent</button>
+              <button class="btn btn-danger btn-sm btn-block ml" (click)="onRemoveDep(i)">Delete this dependent</button>
             </div>
           </div>
 
