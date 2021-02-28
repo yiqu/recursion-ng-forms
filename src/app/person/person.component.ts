@@ -1,5 +1,5 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { createFormControl } from '../app.component';
 
 @Component({
@@ -9,8 +9,13 @@ import { createFormControl } from '../app.component';
 })
 export class PersonComponent implements OnInit, OnChanges {
 
-  typeSelections: string[] = ['Person', 'Animal', 'TV'];
-  habitantFg: FormGroup | undefined = this.createNewPersonFg();;
+  @Input()
+  passedInHabitant: FormGroup | undefined;
+
+  habitantToPassToNext: FormGroup | undefined;
+
+  typeSelections: string[] = ['habitant', 'animal', 'tv'];
+  habitantFg: FormGroup = this.createNewHibitantFg();
 
   constructor(public fb: FormBuilder) {
   }
@@ -19,16 +24,22 @@ export class PersonComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    //this.habitantFg = this.createNewPersonFg();
+    if (this.passedInHabitant?.get('habitantName')) {
+      console.log("has name")
+      this.habitantFg = this.passedInHabitant;
+    } else {
+      console.log("has NO name")
+      this.passedInHabitant?.addControl('habitant', this.habitantFg);
+    }
   }
 
-  createNewPersonFg() {
+  createNewHibitantFg() {
     return this.fb.group({
-      name: createFormControl(null, false),
-      age: createFormControl(null, false),
+      habitantName: createFormControl(null, false, [Validators.required]),
+      age: createFormControl(null, false,  [Validators.required]),
       containers: this.fb.array([
         new FormGroup({
-          source_type: createFormControl(null, false)
+          source_type: createFormControl(null, false,  [Validators.required])
         })
       ])
     });
@@ -41,26 +52,43 @@ export class PersonComponent implements OnInit, OnChanges {
     }));
   }
 
-  onTypeChange(arryIndex: number) {
-    const value = (this.getContainers.at(arryIndex).get('source_type'))?.value
-    console.log(arryIndex, value)
-
-    if (value === 'Animal') {
-      (<FormGroup>this.getContainers.at(arryIndex)).addControl(
-        'petName', createFormControl(null, false)
-      );
-    } else if (value === 'TV') {
-      (<FormGroup>this.getContainers.at(arryIndex)).removeControl('petName');
-    } else if (value === 'Person') {
-      (<FormGroup>this.getContainers.at(arryIndex)).removeControl('petName');
-
-
-
-    }
-    //(<FormGroup>this.getContainers.at(arryIndex)).addControl()
+  onRemoveType(index: number) {
+    this.getContainers.removeAt(index);
   }
 
-  get getContainers(): any {
+  onTypeChange(arryIndex: number) {
+    const value = (this.getContainers.at(arryIndex).get('source_type'))?.value;
+    const containerFg = (<FormGroup>this.getContainers.at(arryIndex));
+
+    console.log(arryIndex, value)
+
+    if (value === 'animal') {
+      containerFg.addControl('animalName', createFormControl(null, false));
+      containerFg.removeControl('habitant');
+    } else if (value === 'tv') {
+      containerFg.removeControl('animalName');
+      containerFg.removeControl('habitant');
+    } else if (value === 'habitant') {
+
+      containerFg.removeControl('animalName');
+      const newHabitant = this.createNewHibitantFg();
+
+      // 2nd level and +
+      if (this.passedInHabitant?.get('habitant')) {
+        ((this.passedInHabitant.get('habitant')?.get('containers') as FormArray).at(arryIndex) as FormGroup).addControl('habitant', newHabitant);
+        this.habitantToPassToNext = ((this.passedInHabitant.get('habitant')?.get('containers') as FormArray).at(arryIndex) as FormGroup)
+          .get('habitant') as FormGroup;
+      }
+      else { // the first level, doesnt have a hibitant yet
+        ((this.passedInHabitant?.get('containers') as FormArray).at(arryIndex) as FormGroup).addControl('habitant', newHabitant);
+        this.habitantToPassToNext = ((this.passedInHabitant?.get('containers') as FormArray).at(arryIndex) as FormGroup)
+          .get('habitant') as FormGroup;
+      }
+
+    }
+  }
+
+  get getContainers(): FormArray {
     return this.habitantFg?.get('containers') as FormArray;
   }
 

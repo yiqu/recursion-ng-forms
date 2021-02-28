@@ -1,10 +1,12 @@
-<div class="person-form ml-2 mb" [formGroup]="habitantFg" *ngIf="habitantFg">
-  <div class="title">Habitant</div>
+<div class="habitant-form ml-2 mb" [formGroup]="passedInHabitant?.get('habitantName') ? $any(passedInHabitant) : habitantFg"
+  *ngIf="passedInHabitant?.get('habitantName') || passedInHabitant">
+
+  <div class="title">Habitant Information</div>
   <div>
 
     <div class="form-group mb">
-      <label>Name</label>
-      <input class="form-control" formControlName='name'>
+      <label>Habitant Name</label>
+      <input class="form-control" formControlName='habitantName'>
     </div>
 
     <div class="form-group mb">
@@ -14,35 +16,42 @@
 
     <div class="form-group mb">
 
-      <div class="title-add mt">
-        <label>Containers</label>
-        <button class="btn btn-sm btn-primary" (click)="onAddType()">+</button>
+      <div class="title-add mt mb">
+        <label>Dependent</label>
+        <button class="btn btn-sm btn-primary" (click)="onAddType()">Add another dependent</button>
       </div>
 
       <div formArrayName='containers'>
-        <div *ngFor="let hab of getContainers.controls; let i = index">
-
-          <div [formGroupName]="i">
-
-            <div class="mb">
+        <div *ngFor="let hab of getContainers.controls; let i = index" [formGroupName]="i" class="mb">
+          <div class="flex bl mb">
+            <div class="mr">#{{i + 1}}</div>
+            <div>
               <label>Type</label>
               <select formControlName='source_type' (change)="onTypeChange(i)">
                 <option disabled hidden>None</option>
                 <option *ngFor="let opt of typeSelections" [value]="opt">{{opt}}</option>
               </select>
+              <button class="btn btn-danger btn-sm btn-block ml" (click)="onRemoveType(i)">Delete this dependent</button>
             </div>
-
-            <div *ngFor="let ctrl of objToArray(getContainers.at(i)['controls'])" class="flex">
-              <label>{{ctrl}}</label>
-              <input class="form-control" [formControlName]='ctrl' [placeholder]="'Enter ' + ctrl">
-
-
-            </div>
-
           </div>
+
+          <div *ngIf="$any(hab.get('source_type')).value !== 'habitant'">
+            <ng-container *ngFor="let ctrl of objToArray($any(hab)['controls'])">
+              <div class="flex">
+                <label>{{ctrl | labelName}}</label>
+                <input class="form-control" [formControlName]='ctrl'>
+              </div>
+            </ng-container>
+          </div>
+
+          <div *ngIf="$any(hab.get('source_type')).value === 'habitant'">
+            <div>
+              <app-person [passedInHabitant]="habitantToPassToNext ? habitantToPassToNext : $any(this.passedInHabitant)?.get('habitant')"></app-person>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
-
   </div>
 </div>

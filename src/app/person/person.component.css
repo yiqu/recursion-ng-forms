@@ -1,7 +1,9 @@
-.person-form {
+.habitant-form {
   width: 500px;
   margin-left: 20px;
   margin-top: 10px;
+  border-left: 1px solid #ccc;
+  padding-left: 10px;
 }
 
 .title {
@@ -29,6 +31,14 @@
   margin-right: 10px;
 }
 
+.ml {
+  margin-left: 10px;
+}
+
 label {
   margin-right: 10px;
+}
+
+.bl {
+  align-items: baseline;
 }

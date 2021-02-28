@@ -16,6 +16,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.mainFg = this.createMainFormGroup();
+    this.mainFg.valueChanges.subscribe((res) => {
+      console.log(this.mainFg.value);
+    });
+    console.log("init")
   }
 
   //  Overall
@@ -24,7 +28,7 @@ export class AppComponent implements OnInit {
   createMainFormGroup() {
     return this.fb.group({
       address: createFormControl('1000 Friendly St.', false, [Validators.required]),
-      name: createFormControl('Kevin', false, [Validators.required])
+      year: createFormControl('2021', false, [Validators.required])
     });
   }
 
