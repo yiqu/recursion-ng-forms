@@ -1,0 +1,18 @@
+<div class="row mb">
+  <div class="col-12">
+    Choose a item to edit
+  </div>
+</div>
+
+<ng-container *ngIf="(this.items | async) as homeItems">
+  <div class="row mb clickable" *ngFor="let homeItem of homeItems; let i =index"
+    (click)="onGoToEdit($any(homeItem)['id'])">
+    <div class="col-12">
+      {{i+1}} -
+      {{homeItem['id']}}
+      <span>{{homeItem.address}}</span>
+      <span>{{homeItem.year}}</span>
+    </div>
+  </div>
+</ng-container>
+

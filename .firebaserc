@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "udemy-angular-665a2": {
+      "hosting": {
+        "recursion-forms": [
+          "udemy-angular-665a2"
+        ]
+      }
+    }
+  }
+}

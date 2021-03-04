@@ -58,7 +58,7 @@ export class PersonComponent implements OnInit, OnChanges {
       containerFg.removeControl('habitant');
     }
     else if (value === 'deceased') {
-      containerFg.removeControl('pet');
+      containerFg.removeControl('petName');
       containerFg.removeControl('habitant');
     }
 
