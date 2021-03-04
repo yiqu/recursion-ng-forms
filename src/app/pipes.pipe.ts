@@ -5,8 +5,8 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class AnimalPipeDisplay implements PipeTransform {
    transform(val : string) : string {
-     if (val === 'animalName') {
-      return 'Animal Name';
+     if (val === 'petName') {
+      return 'Pet Name';
      }
     return val;
    }

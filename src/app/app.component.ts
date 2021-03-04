@@ -19,10 +19,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.mainFg = this.createMainFormGroup();
     this.mainFg.valueChanges.pipe(
-      debounceTime(1500)
     )
     .subscribe((res) => {
-      console.log(this.mainFg.value);
     });
   }
 

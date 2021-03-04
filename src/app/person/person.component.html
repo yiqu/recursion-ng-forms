@@ -1,8 +1,10 @@
 <div class="habitant-form ml-2 mb" [formGroup]="habitantFg" *ngIf="habitantFg">
 
-  <div class="title">Habitant Information</div>
-  <div>
+  <div class="title">
+    Habitant Information
+  </div>
 
+  <div>
     <div class="form-group mb">
       <label>Habitant Name</label>
       <input class="form-control" formControlName='habitantName'>
@@ -16,17 +18,18 @@
     <div class="form-group mb">
 
       <div class="title-add mt mb">
-        <label>Dependent</label>
+        <label>Dependent(s)</label>
         <button class="btn btn-sm btn-primary" (click)="onAddDep()">Add another dependent</button>
       </div>
 
       <div formArrayName='dependents'>
         <div *ngFor="let hab of getDependentsArray.controls; let i = index" [formGroupName]="i" class="mb">
+
           <div class="flex bl mb">
             <div class="mr">#{{i + 1}}</div>
             <div>
-              <label>Type</label>
-              <select formControlName='source_type' (change)="onTypeChange(i)">
+              <label>Dependent type</label>
+              <select formControlName='dependent_type' (change)="onTypeChange(i)">
                 <option disabled hidden>None</option>
                 <option *ngFor="let opt of typeSelections" [value]="opt">{{opt}}</option>
               </select>
@@ -34,7 +37,7 @@
             </div>
           </div>
 
-          <div *ngIf="$any(hab.get('source_type')).value !== 'habitant'">
+          <div *ngIf="$any(hab.get('dependent_type')).value !== 'habitant'">
             <ng-container *ngFor="let ctrl of objToArray($any(hab)['controls'])">
               <div class="flex">
                 <label>{{ctrl | labelName}}</label>
@@ -43,9 +46,9 @@
             </ng-container>
           </div>
 
-          <div *ngIf="$any(hab.get('source_type')).value === 'habitant'">
+          <div *ngIf="$any(hab.get('dependent_type')).value === 'habitant'">
             <div>
-              <app-person [passedInHabitant]="habitantToPassToNext ? habitantToPassToNext : $any(this.passedInHabitant)?.get('habitant')"></app-person>
+              <app-person [passedInHabitant]="habitantToPassToNext"></app-person>
             </div>
           </div>
 
