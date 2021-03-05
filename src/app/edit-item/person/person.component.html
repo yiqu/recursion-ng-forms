@@ -1,0 +1,59 @@
+<div class="habitant-form ml-2 mb" [formGroup]="habitantFg" *ngIf="habitantFg">
+
+  <div class="title">
+    Habitant Information
+  </div>
+
+  <div>
+    <div class="form-group mb">
+      <label>Habitant Name</label>
+      <input class="form-control" formControlName='habitantName'>
+    </div>
+
+    <div class="form-group mb">
+      <label>Age</label>
+      <input class="form-control" formControlName='age'>
+    </div>
+
+    <div class="form-group mb">
+
+      <div class="title-add mt mb">
+        <label>Dependent(s)</label>
+        <button class="btn btn-sm btn-primary" (click)="onAddDep()">Add another dependent</button>
+      </div>
+
+      <div formArrayName='dependents'>
+        <div *ngFor="let hab of getDependentsArray.controls; let i = index" [formGroupName]="i" class="mb">
+
+          <div class="flex bl mb">
+            <div class="mr">#{{i + 1}}</div>
+            <div>
+              <label>Dependent type</label>
+              <select formControlName='dependent_type' (change)="onTypeChange(i)">
+                <option disabled hidden>None</option>
+                <option *ngFor="let opt of typeSelections" [value]="opt">{{opt}}</option>
+              </select>
+              <button class="btn btn-danger btn-sm btn-block ml" (click)="onRemoveDep(i)">Delete this dependent</button>
+            </div>
+          </div>
+
+          <div *ngIf="$any(hab.get('dependent_type')).value !== 'habitant'">
+            <ng-container *ngFor="let ctrl of objToArray($any(hab)['controls'])">
+              <div class="flex">
+                <label>{{ctrl | labelName}}</label>
+                <input class="form-control" [formControlName]='ctrl'>
+              </div>
+            </ng-container>
+          </div>
+
+          <div *ngIf="$any(hab.get('dependent_type')).value === 'habitant'">
+            <div>
+              <app-person-edit [passedInHabitant]="habitantToPassToNext"></app-person-edit>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

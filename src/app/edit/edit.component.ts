@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, CanDeactivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Home } from '../app.component';

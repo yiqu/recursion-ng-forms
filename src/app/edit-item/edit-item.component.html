@@ -1,5 +1,48 @@
 <div class="row">
-  <div class="col-12">
-    Edit
+  <div class="col-6">
+    <ng-container *ngIf="this.currentHome">
+      <div class="row">
+        <div class="col-12">
+          <h3>
+            Editing Item {{this.currentFg.dirty ? '*' : ''}}
+          </h3>
+          <span>(id: {{this.currentHome?.id}})</span>
+        </div>
+      </div>
+      <hr>
+
+      <ng-container *ngIf="this.currentFg">
+        <form [formGroup]="this.currentFg">
+          <ng-container *ngFor="let ctrl of this.objToArray(currentFg.controls)">
+            <ng-container *ngIf="ctrl !== 'habitant'">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group mb">
+                    <label>{{ctrl}}</label>
+                    <input class="form-control" [formControlName]='ctrl'>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="ctrl === 'habitant'">
+              <app-person-edit [passedInHabitant]="this.currentFg"></app-person-edit>
+
+            </ng-container>
+
+          </ng-container>
+        </form>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="col-6">
+    <h3>Form Value:</h3>
+    <hr>
+    <pre *ngIf="this.currentFg">
+      {{this.currentFg.value | json}}
+    </pre>
   </div>
 </div>
+
+
+

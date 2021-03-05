@@ -14,6 +14,8 @@ import { RouterModule } from '@angular/router';
 import { EditComponent } from './edit/edit.component';
 import { HomeComponent } from './home/home.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
+import { EditPersonComponent } from './edit-item/person/person.component';
+import { CanDeactivateGuard } from './can-deactivate.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { EditItemComponent } from './edit-item/edit-item.component';
     AnimalPipeDisplay,
     EditComponent,
     HomeComponent,
-    EditItemComponent
+    EditItemComponent,
+    EditPersonComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,7 @@ import { EditItemComponent } from './edit-item/edit-item.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule
   ],
-  providers: [],
+  providers: [CanDeactivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
