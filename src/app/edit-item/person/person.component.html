@@ -23,7 +23,7 @@
       </div>
 
       <div formArrayName='dependents'>
-        <div *ngFor="let hab of getDependentsArray.controls; let i = index" [formGroupName]="i" class="mb">
+        <div *ngFor="let hab of getDependentsArray?.controls; let i = index" [formGroupName]="i" class="mb">
 
           <div class="flex bl mb">
             <div class="mr">#{{i + 1}}</div>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { ActivatedRoute, CanDeactivate, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ActivatedRoute, CanDeactivate, ParamMap, Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { Home } from '../app.component';
 
 @Component({
@@ -14,6 +14,9 @@ export class EditComponent implements OnInit {
 
   private itemsCollection: AngularFirestoreCollection<any>;
   items: Observable<Home[]>;
+  lastEdited?: string | null;
+  onDest$: Subject<void> = new Subject<void>();
+
 
   constructor(public fs: AngularFirestore, private router: Router, private route: ActivatedRoute) {
     this.itemsCollection = fs.collection<any>('homes');
@@ -27,11 +30,16 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.queryParamMap.pipe(
+      takeUntil(this.onDest$)
+    ).subscribe((res: ParamMap) => {
+      this.lastEdited = res.get('edited');
+    });
   }
 
   onGoToEdit(id: string) {
     if (id) {
-      this.router.navigate(['./', id], {relativeTo: this.route});
+      this.router.navigate(['./', id], {relativeTo: this.route, queryParams: {edited: id}});
     }
   }
 }

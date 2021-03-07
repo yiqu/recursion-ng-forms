@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+.form-control.ng-dirty.ng-invalid {
+  border-color: #e83e3e7a;
+  border-width: 2px;
+}
+
+.form-control.ng-touched.ng-invalid {
+  border-color: #e83e3e7a;
+  border-width: 2px;
+}
+
+.form-control.ng-valid {
+}

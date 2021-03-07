@@ -54,7 +54,7 @@ export class PersonComponent implements OnInit, OnChanges {
     const containerFg = (<FormGroup>this.getDependentsArray.at(arryIndex));
 
     if (value === 'pet') {
-      containerFg.addControl('petName', createFormControl(null, false));
+      containerFg.addControl('petName', createFormControl(null, false, [Validators.required]));
       containerFg.removeControl('habitant');
     }
     else if (value === 'deceased') {

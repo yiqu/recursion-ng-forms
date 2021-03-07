@@ -7,7 +7,7 @@
 <ng-container *ngIf="(this.items | async) as homeItems">
   <div class="row mb clickable" *ngFor="let homeItem of homeItems; let i =index"
     (click)="onGoToEdit($any(homeItem)['id'])">
-    <div class="col-12">
+    <div [class]="'col-12 ' + (this.lastEdited === homeItem['id'] ? 'edited-item':'') ">
       {{i+1}} -
       {{homeItem['id']}}
       <span>{{homeItem.address}}</span>

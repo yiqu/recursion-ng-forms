@@ -3,5 +3,11 @@
 }
 
 .clickable:hover {
-  background-color: aqua;
+  background-color: rgb(159, 194, 174);
+}
+
+.row {
+  .edited-item {
+    background-color: #eee;
+  }
 }

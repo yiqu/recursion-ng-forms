@@ -23,14 +23,23 @@ export class EditPersonComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    if (this.passedInHabitant?.get('habitantName')) {
-      // 2nd level and beyond. A habitant fg exists, passed in from the previous level
-      console.log("Got a habitant fg from previous");
+
+    if (this.passedInHabitant) {
+      console.log("in changes")
       this.habitantFg = this.passedInHabitant;
-    } else {
-      // 1st habitant formgroup, no habitant fg is passed in.
-      console.log("Creating the first habitant fg");
-      this.passedInHabitant?.addControl('habitant', this.habitantFg);
+      const containerArray = <FormArray>this.habitantFg.get('dependents');
+
+      if (containerArray) {
+        containerArray.controls.forEach((containerCtrl, index: number) => {
+          this.onTypeChange(index);
+        });
+      } else {
+        this.habitantFg.addControl('dependents', this.fb.array([
+          new FormGroup({
+            dependent_type: createFormControl(null, false,  [Validators.required])
+          })
+        ]));
+      }
     }
   }
 
@@ -54,7 +63,7 @@ export class EditPersonComponent implements OnInit, OnChanges {
     const containerFg = (<FormGroup>this.getDependentsArray.at(arryIndex));
 
     if (value === 'pet') {
-      containerFg.addControl('petName', createFormControl(null, false));
+      containerFg.addControl('petName', createFormControl(null, false, [Validators.required]));
       containerFg.removeControl('habitant');
     }
     else if (value === 'deceased') {

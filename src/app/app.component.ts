@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   }
 }
 
-export function createFormControl(value: any, disabled: boolean,
+export function createFormControl(value: any, disabled: boolean = false,
   validators: any[] = [], asyncValids: any[] = []): FormControl {
   let fc = new FormControl({
     value: value,
@@ -36,7 +36,7 @@ export interface Home {
   habitant: Habitant;
 }
 
-export interface Habitant {
+export interface Habitant extends IObjectStringKey {
   habitantName: string;
   age: string;
   dependents: Dependent[];
