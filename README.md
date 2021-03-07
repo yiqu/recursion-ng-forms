@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.com/yiqu/recursion-ng-forms.svg?branch=master)](https://travis-ci.com/yiqu/recursion-ng-forms)
 
+Demo: [https://yiqu.github.io/recursion-ng-forms/](https://yiqu.github.io/recursion-ng-forms/)
+
 ## Form Structure:
 
 * Address (form control)
@@ -12,8 +14,12 @@
   * habitantName (form control)
   * age (form control)
   * dependents (form array)
-    * The dependents array contains form groups that has a 'source_type' form control. The 'source_type' is a selection of 3 possible values: animal, tv, or habitant. If habitant is chosen, display the Habitant form group again explained here.
+    * The dependents array contains form groups that has a 'dependent_type' form control. The 'dependent_type' is a selection of 3 possible values: deceased, pet, or habitant. If habitant is chosen, display the Habitant form group again explained here.
       
+
+The dependents form array could contain a Habitant, which in turn contains dependents which could contain Habitants. Thus a recursion is needed for creating and displaying the form.
+
+
       
 ## Example result:
 ```yaml
@@ -26,32 +32,32 @@
       "age":"First hab age",
       "dependents":[
          {
-            "source_type":"animal",
-            "animalName":"First hab's animal name"
+            "dependent_type":"animal",
+            "petName":"First hab's animal name"
          },
          {
-            "source_type":"habitant",
+            "dependent_type":"habitant",
             "habitant":{
                "habitantName":"Second hab name",
                "age":"Second hab age",
                "dependents":[
                   {
-                     "source_type":"habitant",
+                     "dependent_type":"habitant",
                      "habitant":{
                         "habitantName":"Third hab name",
                         "age":"Third hab age",
                         "dependents":[
                            {
-                              "source_type":"tv"
+                              "dependent_type":"deceased"
                            },
                            {
-                              "source_type":"habitant",
+                              "dependent_type":"habitant",
                               "habitant":{
                                  "habitantName":"Fourth hab name",
                                  "age":"Fourth hab age",
                                  "dependents":[
                                     {
-                                       "source_type":null
+                                       "dependent_type":null
                                     }
                                  ]
                               }
